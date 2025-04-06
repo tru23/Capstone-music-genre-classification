@@ -1,0 +1,12 @@
+<div class="card">
+    <h2>🎵 Upload Music to Predict Genre</h2>
+  
+    <input type="file" (change)="onFileSelected($event)" id="fileUpload">
+    
+    <button (click)="predictGenre()">Predict 🎧</button>
+  
+    <div class="result" *ngIf="predictedGenre">
+      <h3>Predicted Genre: <span>{{ predictedGenre }}</span></h3>
+    </div>
+  </div>
+  

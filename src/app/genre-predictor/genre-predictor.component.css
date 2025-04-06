@@ -1,0 +1,47 @@
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  input[type="file"] {
+    display: block;
+    margin: 20px auto;
+    color: white;
+  }
+  
+  button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #17a44b;
+  }
+  
+  .result {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .result span {
+    color: #f1c40f;
+    font-weight: bold;
+  }
+  

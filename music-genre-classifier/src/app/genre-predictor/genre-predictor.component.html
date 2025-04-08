@@ -1,0 +1,17 @@
+<div class="card">
+  <h2>🎵 Upload Music to Predict Genre</h2>
+
+  <input type="file" (change)="onFileSelected($event)" id="fileUpload" />
+
+  <button (click)="predictGenre()" [disabled]="!selectedFile || loading">
+    {{ loading ? 'Predicting...' : 'Predict 🎧' }}
+  </button>
+
+  <div class="result" *ngIf="predictedGenre && !loading">
+    <h3>Predicted Genre: <span>{{ predictedGenre }}</span></h3>
+  </div>
+
+  <div class="error" *ngIf="errorMessage && !loading">
+    <p>Error: {{ errorMessage }}</p>
+  </div>
+</div>

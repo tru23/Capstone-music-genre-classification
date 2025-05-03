@@ -1,17 +1,117 @@
-<div class="card">
-  <h2>🎵 Upload Music to Predict Genre</h2>
+<div class="page-wrapper">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">SoundAI</div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#upload">Upload</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <input type="file" (change)="onFileSelected($event)" id="fileUpload" />
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>AI-Powered Music Genre Detection</h1>
+      <p>Upload your track and let SoundAI identify the genre instantly using machine learning.</p>
+    </div>
+  </section>
 
-  <button (click)="predictGenre()" [disabled]="!selectedFile || loading">
-    {{ loading ? 'Predicting...' : 'Predict 🎧' }}
-  </button>
+  <div class="card">
+    <h2>🎵 Upload Music to Predict Genre</h2>
 
-  <div class="result" *ngIf="predictedGenre && !loading">
-    <h3>Predicted Genre: <span>{{ predictedGenre }}</span></h3>
+    <!-- Styled file input -->
+    <div class="file-upload">
+      <input type="file" id="fileUpload" (change)="onFileSelected($event)" />
+      <label for="fileUpload" class="file-label">📂 Choose File</label>
+      <span class="file-name">{{ selectedFile ? selectedFile.name : 'No file chosen' }}</span>
+    </div>
+<!-- 🔊 Uploaded File Preview -->
+<div *ngIf="uploadedAudioUrl" style="margin: 20px 0;">
+  <p>Preview your uploaded track:</p>
+  <audio controls [src]="uploadedAudioUrl"></audio>
+</div>
+    <button (click)="predictGenre()" [disabled]="!selectedFile || loading">
+      {{ loading ? 'Predicting...' : 'Predict 🎧' }}
+    </button>
+
+    <div class="result" *ngIf="predictedGenre && !loading">
+      <h3>Predicted Genre: <span>{{ predictedGenre }}</span></h3>
+    </div>
+
+    <div class="error" *ngIf="errorMessage && !loading">
+      <p>Error: {{ errorMessage }}</p>
+    </div>
   </div>
 
-  <div class="error" *ngIf="errorMessage && !loading">
-    <p>Error: {{ errorMessage }}</p>
-  </div>
+  <!-- 🔁 Recommended Tracks Section -->
+  <section *ngIf="recommendations.length > 0" class="recommendations-section">
+
+    <h2>🎧 Recommended Tracks</h2>
+    <div class="recommendations-container">
+      <div class="recommendation-card" *ngFor="let rec of recommendations">
+        <p>{{ rec.name }}</p>
+        <audio controls [src]="rec.url"></audio>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <h2>🎶 About SoundAI</h2>
+      <p>
+        SoundAI leverages cutting-edge machine learning and deep audio analysis techniques to determine the genre of your music tracks.
+        Whether you're a producer, DJ, or just curious about your sound, our AI delivers fast and accurate predictions, helping you understand your music better than ever.
+      </p>
+      <p>
+        Built with a robust dataset and refined neural network models, SoundAI continually learns and improves to adapt to evolving music trends and styles across the globe.
+      </p>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section id="reviews" class="reviews-section">
+    <h2>What Users Say</h2>
+    <div class="reviews-container">
+      <div class="review-card">
+        <p>"SoundAI is incredibly accurate! I use it regularly for my DJ sets."</p>
+        <span>- DJ Nova</span>
+      </div>
+      <div class="review-card">
+        <p>"The genre detection helped me categorize my entire music library. Fantastic tool!"</p>
+        <span>- Sarah, Music Producer</span>
+      </div>
+      <div class="review-card">
+        <p>"As an indie artist, this helped me better understand how my music fits in the industry."</p>
+        <span>- Liam, Indie Artist</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expected Results / Subscription -->
+  <section class="subscription-section">
+    <div class="subscription-container">
+      <h2>📈 What You Can Expect</h2>
+      <ul>
+        <li>✔️ Instant genre prediction with high accuracy</li>
+        <li>✔️ Support for popular audio formats like MP3, WAV, FLAC</li>
+        <li>✔️ Genre breakdown with confidence levels</li>
+        <li>✔️ Historical insights and trends (coming soon!)</li>
+      </ul>
+
+      <h3>🔔 Stay Updated</h3>
+      <p>Get notified about new features, genre expansion, and analytics tools.</p>
+      <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="padding: 40px 20px; background: #121212; text-align: center; color: #777;">
+    <p>© 2025 SoundAI. All rights reserved.</p>
+  </footer>
 </div>

@@ -1,16 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import librosa
 import numpy as np
 import joblib
 import scipy.stats
+import random
 
 # ==== Configs ====
 SAMPLE_RATE = 22050
 NUM_MFCC = 20
 N_FFT = 2048
 HOP_LENGTH = 512
+GENRES_BASE_PATH = "data1/Data/genres_original"  # recommendation path base
 
 app = Flask(__name__)
 CORS(app)
@@ -72,11 +74,30 @@ def predict_genre():
         prediction = model.predict(features)
         predicted_genre = prediction[0]
 
+        # === Recommendation logic ===
+        genre_folder = os.path.join(GENRES_BASE_PATH, predicted_genre.lower())
+        if os.path.exists(genre_folder):
+            all_files = [f for f in os.listdir(genre_folder) if f.lower().endswith(('.wav', '.mp3'))]
+            sample_files = random.sample(all_files, min(8, len(all_files)))
+            recommendations = [
+                {
+                    "name": fname,
+                    "url": f"http://127.0.0.1:5000/static/{predicted_genre.lower()}/{fname}"
+                } for fname in sample_files
+            ]
+        else:
+            recommendations = []
+
         os.remove(filepath)  # Clean up
-        return jsonify({'genre': predicted_genre})
+        return jsonify({'genre': predicted_genre, 'recommendations': recommendations})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/static/<genre>/<filename>')
+def serve_audio(genre, filename):
+    folder = os.path.join(GENRES_BASE_PATH, genre)
+    return send_from_directory(folder, filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
